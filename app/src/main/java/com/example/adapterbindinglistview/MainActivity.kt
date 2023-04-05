@@ -3,13 +3,9 @@ package com.example.adapterbindinglistview
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import android.widget.ArrayAdapter
 import com.example.adapterbindinglistview.adapter.CountryAdapter
-import com.example.adapterbindinglistview.adapter.UserAdapter
 import com.example.adapterbindinglistview.databinding.ActivityMainBinding
 import com.example.adapterbindinglistview.model.country.Country
-import com.example.adapterbindinglistview.model.user.User
 
 class MainActivity : AppCompatActivity() {
 
@@ -46,7 +42,7 @@ class MainActivity : AppCompatActivity() {
                 "Antarctica",
                 "143400000",
                 "474.5 km^2",
-                "https://countryflagsapi.com/png/uz",
+                "https://countryflagsapi.com/png/antarctica",
                 "Antarctica, the southernmost continent and site of the South Pole, is a virtually uninhabited, ice-covered landmass. \n" +
                         "Most cruises to the continent visit the Antarctic Peninsula, which stretches toward South America. It’s known for \n" +
                         "the Lemaire Channel and Paradise Harbor, striking, iceberg-flanked passageways, and Port Lockroy, a former British \n" +
