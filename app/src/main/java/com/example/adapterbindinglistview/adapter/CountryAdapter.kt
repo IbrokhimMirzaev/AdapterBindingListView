@@ -1,17 +1,21 @@
 package com.example.adapterbindinglistview.adapter
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.example.adapterbindinglistview.R
 import com.example.adapterbindinglistview.model.country.Country
+import com.example.adapterbindinglistview.utils.ItemTouchAdapter
+import java.util.*
 
-class CountryAdapter(var countries: MutableList<Country>, var myInterface: MyInterface) :
-    RecyclerView.Adapter<CountryAdapter.MyHolder>() {
+class CountryAdapter(var context: Context, var countries: MutableList<Country>, var myInterface: MyInterface) :
+    RecyclerView.Adapter<CountryAdapter.MyHolder>(), ItemTouchAdapter {
     class MyHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val img: ImageView = itemView.findViewById(R.id.img)
         val countryName: TextView = itemView.findViewById(R.id.country_name)
@@ -31,15 +35,36 @@ class CountryAdapter(var countries: MutableList<Country>, var myInterface: MyInt
         holder.img.load(country.imgUrl)
 
         holder.itemView.setOnClickListener {
-            myInterface.myOnClick()
+            myInterface.myOnClick(country, holder.img)
         }
+
+        val anim = AnimationUtils.loadAnimation(context, R.anim.item_amin)
+        holder.itemView.startAnimation(anim)
     }
 
     interface MyInterface {
-        fun myOnClick()
+        fun myOnClick(country: Country, img: ImageView)
     }
 
     override fun getItemCount(): Int {
         return countries.size
+    }
+
+    override fun onItemMove(fromPosition: Int, toPosition: Int) {
+        if (fromPosition < toPosition) {
+            for (i in fromPosition until toPosition) {
+                Collections.swap(countries, i, i + 1)
+            }
+        } else {
+            for (j in fromPosition downTo toPosition + 1) {
+                Collections.swap(countries, j, j - 1)
+            }
+        }
+        notifyItemMoved(fromPosition, toPosition)
+    }
+
+    override fun onItemDismiss(position: Int) {
+        countries.removeAt(position)
+        notifyItemRemoved(position)
     }
 }
